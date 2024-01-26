@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm1bph87qe45e"]
+
+[ext_resource type="Script" path="res://scripts/mesh_instance_3d.gd" id="1_anor4"]
+[ext_resource type="Material" path="res://assets/materials/screen.tres" id="1_axaae"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q5qk4"]
+resource_local_to_scene = true
+
+[node name="Screen" type="MeshInstance3D" node_paths=PackedStringArray("viewport")]
+transform = Transform3D(1, 8.88178e-16, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 2)
+mesh = SubResource("PlaneMesh_q5qk4")
+surface_material_override/0 = ExtResource("1_axaae")
+script = ExtResource("1_anor4")
+viewport = NodePath("")

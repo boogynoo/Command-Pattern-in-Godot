@@ -1,0 +1,262 @@
+[gd_scene load_steps=18 format=3 uid="uid://dkgewmend7c75"]
+
+[ext_resource type="Script" path="res://scripts/remote_controller_test_command_pattern.gd" id="1_l1kbb"]
+[ext_resource type="Script" path="res://scripts/remote/buttons.gd" id="2_2h6m2"]
+[ext_resource type="AudioStream" uid="uid://ddpknmrc6m8ro" path="res://assets/audio/click-button-131479.mp3" id="2_756wx"]
+[ext_resource type="Texture2D" uid="uid://b2rq2ti7n4fq" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_plus.png" id="2_ygmwh"]
+[ext_resource type="Texture2D" uid="uid://bnbrjpjtdjcwj" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_v.png" id="3_f5d8r"]
+[ext_resource type="Texture2D" uid="uid://ci2ctnlxbgr2n" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_plus_outline.png" id="3_tyeb2"]
+[ext_resource type="Texture2D" uid="uid://ih3737yhv3ih" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_minus.png" id="4_whvr0"]
+[ext_resource type="Texture2D" uid="uid://gp6svspdlat" path="res://assets/kenney_onscreen-controls/Sprites/flat-dark/flatDark12.png" id="5_63oq2"]
+[ext_resource type="Texture2D" uid="uid://drqp0fqsirhhc" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_minus_outline.png" id="6_pff2d"]
+[ext_resource type="Texture2D" uid="uid://d3lw7qrt5f8cb" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_p.png" id="6_qo8li"]
+[ext_resource type="Texture2D" uid="uid://7cty4mh6hrl3" path="res://assets/kenney_input-prompts/Flairs/Default/flair_circle_target_b.png" id="7_y5hgg"]
+[ext_resource type="Texture2D" uid="uid://ni3jctuo6rau" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_backspace_icon.png" id="8_mxgul"]
+[ext_resource type="Texture2D" uid="uid://b5jnd4yj0o1tf" path="res://assets/kenney_onscreen-controls/Sprites/flat-dark/flatDark13.png" id="10_5ewke"]
+[ext_resource type="Texture2D" uid="uid://crsw0yesvcfke" path="res://assets/kenney_onscreen-controls/Sprites/flat-dark/flatDark15.png" id="11_6xjge"]
+[ext_resource type="Texture2D" uid="uid://cb1uyghbxpn2j" path="res://assets/kenney_input-prompts/Keyboard & Mouse/Default/keyboard_backspace_icon_outline.png" id="11_q0p8l"]
+[ext_resource type="Texture2D" uid="uid://nxim852psd4c" path="res://assets/kenney_onscreen-controls/Sprites/line-dark/lineDark13.png" id="14_pnn2e"]
+[ext_resource type="Texture2D" uid="uid://wlfev72tjsri" path="res://assets/kenney_onscreen-controls/Sprites/line-dark/lineDark15.png" id="16_dydm3"]
+
+[node name="SmartRemote" type="Control" node_paths=PackedStringArray("audiostream", "timer_input")]
+layout_mode = 3
+anchor_right = 0.235
+anchor_bottom = 1.0
+offset_right = 0.279968
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l1kbb")
+audiostream = NodePath("AudioStreamPlayer")
+mapping = Array[int]([0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 7, 3, 4, 5, 8, 9, 9, 9, 9, 11, 10])
+timer_input = NodePath("InputTimer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_756wx")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="." node_paths=PackedStringArray("list")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = 12.0
+offset_right = -23.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_2h6m2")
+list = [NodePath("PowerSource/Power"), NodePath("PowerSource/Source"), NodePath("HBoxContainer/147/1"), NodePath("HBoxContainer/147/4"), NodePath("HBoxContainer/147/7"), NodePath("HBoxContainer/258/2"), NodePath("HBoxContainer/258/5"), NodePath("HBoxContainer/258/8"), NodePath("HBoxContainer/369/3"), NodePath("HBoxContainer/369/6"), NodePath("HBoxContainer/369/9"), NodePath("VolumeChannel/Volume/VBoxContainer/VUp"), NodePath("VolumeChannel/Volume/VBoxContainer/VDown"), NodePath("VolumeChannel/MuteAnd/Mute"), NodePath("VolumeChannel/Channel/VBoxContainer/CUp"), NodePath("VolumeChannel/Channel/VBoxContainer/CDown"), NodePath("UndoAnd/Undo"), NodePath("LetterButtons/A"), NodePath("LetterButtons/B"), NodePath("LetterButtons/C"), NodePath("LetterButtons/D"), NodePath("PausePlay/Pause"), NodePath("PausePlay/Play")]
+
+[node name="PowerSource" type="HBoxContainer" parent="Buttons"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Power" type="Button" parent="Buttons/PowerSource"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Power"
+
+[node name="Source" type="Button" parent="Buttons/PowerSource"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+text = "Source
+"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Buttons"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Buttons"]
+custom_minimum_size = Vector2(150, 100)
+layout_mode = 2
+
+[node name="147" type="VBoxContainer" parent="Buttons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="1" type="Button" parent="Buttons/HBoxContainer/147"]
+layout_mode = 2
+text = "1"
+
+[node name="4" type="Button" parent="Buttons/HBoxContainer/147"]
+layout_mode = 2
+text = "4"
+
+[node name="7" type="Button" parent="Buttons/HBoxContainer/147"]
+layout_mode = 2
+text = "7"
+
+[node name="258" type="VBoxContainer" parent="Buttons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="2" type="Button" parent="Buttons/HBoxContainer/258"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "2"
+
+[node name="5" type="Button" parent="Buttons/HBoxContainer/258"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "5"
+
+[node name="8" type="Button" parent="Buttons/HBoxContainer/258"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "8"
+
+[node name="369" type="VBoxContainer" parent="Buttons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="3" type="Button" parent="Buttons/HBoxContainer/369"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "3"
+
+[node name="6" type="Button" parent="Buttons/HBoxContainer/369"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "6"
+
+[node name="9" type="Button" parent="Buttons/HBoxContainer/369"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "9"
+
+[node name="MarginContainer4" type="MarginContainer" parent="Buttons"]
+custom_minimum_size = Vector2(50, 5)
+layout_mode = 2
+
+[node name="VolumeChannel" type="HBoxContainer" parent="Buttons"]
+layout_mode = 2
+
+[node name="Volume" type="PanelContainer" parent="Buttons/VolumeChannel"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VolumeChannel/Volume"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VUp" type="TextureButton" parent="Buttons/VolumeChannel/Volume/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_ygmwh")
+texture_pressed = ExtResource("3_tyeb2")
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/VolumeChannel/Volume/VBoxContainer"]
+modulate = Color(0.619608, 0.619608, 0.619608, 1)
+layout_mode = 2
+texture_normal = ExtResource("3_f5d8r")
+
+[node name="VDown" type="TextureButton" parent="Buttons/VolumeChannel/Volume/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_whvr0")
+texture_pressed = ExtResource("6_pff2d")
+
+[node name="MuteAnd" type="VBoxContainer" parent="Buttons/VolumeChannel"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Mute" type="TextureButton" parent="Buttons/VolumeChannel/MuteAnd"]
+layout_mode = 2
+texture_normal = ExtResource("5_63oq2")
+
+[node name="Channel" type="PanelContainer" parent="Buttons/VolumeChannel"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons/VolumeChannel/Channel"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CUp" type="TextureButton" parent="Buttons/VolumeChannel/Channel/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_ygmwh")
+texture_pressed = ExtResource("3_tyeb2")
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/VolumeChannel/Channel/VBoxContainer"]
+modulate = Color(0.619608, 0.619608, 0.619608, 1)
+layout_mode = 2
+texture_normal = ExtResource("6_qo8li")
+
+[node name="CDown" type="TextureButton" parent="Buttons/VolumeChannel/Channel/VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_whvr0")
+texture_pressed = ExtResource("6_pff2d")
+
+[node name="IconButton" type="CenterContainer" parent="Buttons"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="Buttons/IconButton"]
+layout_mode = 2
+texture_normal = ExtResource("7_y5hgg")
+
+[node name="UndoAnd" type="HBoxContainer" parent="Buttons"]
+layout_mode = 2
+
+[node name="Undo" type="TextureButton" parent="Buttons/UndoAnd"]
+layout_mode = 2
+texture_normal = ExtResource("8_mxgul")
+texture_pressed = ExtResource("11_q0p8l")
+
+[node name="LetterButtons" type="HBoxContainer" parent="Buttons"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="A" type="Button" parent="Buttons/LetterButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "A"
+
+[node name="B" type="Button" parent="Buttons/LetterButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "B"
+
+[node name="C" type="Button" parent="Buttons/LetterButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "C"
+
+[node name="D" type="Button" parent="Buttons/LetterButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "D"
+
+[node name="MarginContainer3" type="MarginContainer" parent="Buttons"]
+custom_minimum_size = Vector2(50, 10)
+layout_mode = 2
+
+[node name="PausePlay" type="HBoxContainer" parent="Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Pause" type="TextureButton" parent="Buttons/PausePlay"]
+layout_mode = 2
+texture_normal = ExtResource("10_5ewke")
+texture_pressed = ExtResource("14_pnn2e")
+
+[node name="Play" type="TextureButton" parent="Buttons/PausePlay"]
+layout_mode = 2
+texture_normal = ExtResource("11_6xjge")
+texture_pressed = ExtResource("16_dydm3")
+
+[node name="InputTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="button_pressed" from="Buttons" to="." method="_on_buttons_button_pressed"]
+[connection signal="timeout" from="InputTimer" to="." method="_on_input_timer_timeout"]

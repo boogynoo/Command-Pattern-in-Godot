@@ -1,0 +1,127 @@
+[gd_scene load_steps=16 format=3 uid="uid://xp0gkcrimma2"]
+
+[ext_resource type="PackedScene" uid="uid://dkgewmend7c75" path="res://scenes/objects/remote_controller.tscn" id="1_5jprg"]
+[ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="1_tmnwb"]
+[ext_resource type="Script" path="res://scripts/debug_remote.gd" id="2_cqoin"]
+[ext_resource type="Script" path="res://scripts/free_camera.gd" id="3_i4hsa"]
+[ext_resource type="PackedScene" uid="uid://co03qyeeeqqwd" path="res://scenes/objects/retrotv_2.tscn" id="3_p471l"]
+[ext_resource type="Shader" path="res://assets/shaders/tv_scene.gdshader" id="5_etj3b"]
+[ext_resource type="PackedScene" uid="uid://b3h2dhfbv10ve" path="res://scenes/remote3D.tscn" id="7_h77fw"]
+[ext_resource type="Script" path="res://scripts/MouseObserver.gd" id="9_am53q"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_54qax"]
+dof_blur_far_enabled = true
+dof_blur_near_distance = 6.0
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2os7b"]
+sky_top_color = Color(0.384314, 0.454902, 0.54902, 1)
+sky_horizon_color = Color(0.647059, 0.654902, 0.670588, 1)
+ground_bottom_color = Color(0.384314, 0.454902, 0.54902, 1)
+ground_horizon_color = Color(0.647059, 0.654902, 0.670588, 1)
+
+[sub_resource type="Sky" id="Sky_bbfal"]
+sky_material = SubResource("ProceduralSkyMaterial_2os7b")
+
+[sub_resource type="Environment" id="Environment_k57u6"]
+background_mode = 2
+sky = SubResource("Sky_bbfal")
+ssao_enabled = true
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_62g27"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q5why"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_etj3b")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uyktp"]
+shader = ExtResource("1_tmnwb")
+shader_parameter/alpha = 1.0
+shader_parameter/inner_radius = 0.2
+shader_parameter/outer_radius = 1.7
+
+[node name="CommandPatternTvScene" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_color = Color(0.945098, 0.94902, 0.905882, 1)
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="."]
+size = Vector3(9.60182, 1, 8.68103)
+
+[node name="Walll" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+size = Vector3(9.60182, 4, 2)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.996195, 0.0871557, 0, -0.0871557, 0.996195, 0, 0, 0, 1, -0.063153, 1.70064, 5.53829)
+attributes = SubResource("CameraAttributesPractical_54qax")
+current = true
+script = ExtResource("3_i4hsa")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_k57u6")
+
+[node name="retrotv2" parent="." instance=ExtResource("3_p471l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.745831, 0.849337, 2.36643)
+channels = {
+1: "res://assets/videos/mario_shy_girl.ogg",
+2: "res://assets/videos/when godot 4.0 finally releases ogg.ogg",
+3: "res://assets/videos/Bloodborne PS1 Demake Kart Racing Gameplay WIP -April Fools- ogg.ogg"
+}
+
+[node name="Screen" parent="retrotv2" index="1"]
+mesh = SubResource("PlaneMesh_62g27")
+surface_material_override/0 = SubResource("ShaderMaterial_q5why")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_uyktp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.734
+anchor_top = 0.021
+anchor_right = 0.973
+anchor_bottom = 0.343
+offset_left = 0.199951
+offset_top = 0.299999
+offset_right = 0.399902
+offset_bottom = -0.0999908
+grow_horizontal = 0
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="DebugRemote" type="VBoxContainer" parent="MarginContainer" node_paths=PackedStringArray("remote")]
+layout_mode = 2
+alignment = 1
+script = ExtResource("2_cqoin")
+remote = NodePath("../../RemoteController")
+
+[node name="RemoteController" parent="." node_paths=PackedStringArray("associated_object") instance=ExtResource("1_5jprg")]
+visible = false
+associated_object = NodePath("../retrotv2")
+
+[node name="3DRemote" parent="." node_paths=PackedStringArray("ui_remote", "ui_historic") instance=ExtResource("7_h77fw")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.761558, 0.535931, 3.24973)
+ui_remote = NodePath("../RemoteController")
+ui_historic = NodePath("../MarginContainer")
+
+[node name="MouseObserver" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
+script = ExtResource("9_am53q")
+camera = NodePath("../Camera3D")
+
+[connection signal="left_click_on" from="MouseObserver" to="MouseObserver" method="_on_left_click_on"]
+
+[editable path="retrotv2"]

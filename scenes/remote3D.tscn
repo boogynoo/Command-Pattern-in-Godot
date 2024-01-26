@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=3 uid="uid://b3h2dhfbv10ve"]
+
+[ext_resource type="AudioStream" uid="uid://ccfhkhc6748vm" path="res://assets/audio/shooting-sound-fx-159024.mp3" id="1_3am2w"]
+[ext_resource type="Script" path="res://scripts/remote/remote3D.gd" id="1_rlsrb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xife0"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8veab"]
+material = SubResource("StandardMaterial3D_xife0")
+size = Vector3(0.07, 0.02, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nu8t1"]
+size = Vector3(0.01, 0.01, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4bfyi"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fp48i"]
+size = Vector3(0.1, 0.05, 0.2)
+
+[node name="Node3D" type="StaticBody3D" node_paths=PackedStringArray("audiostream")]
+script = ExtResource("1_rlsrb")
+audiostream = NodePath("AudioStreamPlayer3D")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("1_3am2w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_8veab")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156571, 0.0173776, 0)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D17" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156571, 0.0173776, -0.0789716)
+mesh = SubResource("BoxMesh_nu8t1")
+surface_material_override/0 = SubResource("StandardMaterial3D_4bfyi")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00138225, 0.0173776, 0)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0187355, 0.0173776, 0)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156571, 0.0173776, 0.0283149)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0187355, 0.0173776, 0.0283149)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156571, 0.0173776, 0.0505012)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D14" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0187355, 0.0173776, 0.0505012)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D15" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00477158, 0.0173776, 0.0850499)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D16" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012242, 0.0173776, 0.0850499)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156571, 0.0173776, -0.0150984)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00138225, 0.0173776, -0.0150984)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0187355, 0.0173776, -0.0150984)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0156571, 0.0173776, -0.0341393)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00138225, 0.0173776, -0.0341393)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0187355, 0.0173776, -0.0341393)
+mesh = SubResource("BoxMesh_nu8t1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_fp48i")

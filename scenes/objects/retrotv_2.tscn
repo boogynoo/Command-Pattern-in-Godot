@@ -1,0 +1,158 @@
+[gd_scene load_steps=12 format=3 uid="uid://co03qyeeeqqwd"]
+
+[ext_resource type="PackedScene" uid="uid://66fbrhjcc6rw" path="res://assets/retro tv/retrotv2.fbx" id="1_cj2es"]
+[ext_resource type="PackedScene" uid="uid://bm1bph87qe45e" path="res://scenes/objects/screen.tscn" id="2_f8pxi"]
+[ext_resource type="Script" path="res://scripts/retrotv_2.gd" id="2_pdyge"]
+[ext_resource type="Shader" path="res://assets/shaders/tv_scene.gdshader" id="3_wwpyh"]
+[ext_resource type="Script" path="res://scripts/ui/AudioDisplay.gd" id="6_18k7x"]
+[ext_resource type="Script" path="res://scripts/video_component.gd" id="6_rghn2"]
+[ext_resource type="Texture2D" uid="uid://d0c3dqoukkisq" path="res://assets/kenney_onscreen-controls/Sprites/transparent-dark/transparentDark13.png" id="7_gcxp0"]
+[ext_resource type="Script" path="res://scripts/ui/ChannelDisplay.gd" id="8_b6qon"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pfsk5"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ju533"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_wwpyh")
+
+[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_jk8op"]
+
+[node name="retrotv2" node_paths=PackedStringArray("screen", "video_component", "audio", "audio_ui", "channel_ui", "timer_switch") instance=ExtResource("1_cj2es")]
+script = ExtResource("2_pdyge")
+screen = NodePath("Screen")
+video_component = NodePath("VideoComponent")
+audio = NodePath("AudioStreamPlayer3D")
+audio_ui = NodePath("VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/AudioDisplay")
+channel_ui = NodePath("VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/ChannelDisplay")
+timer_switch = NodePath("SwitchTimer")
+
+[node name="Cylinder" parent="RootNode" index="0"]
+transform = Transform3D(-5.37244e-08, 1.22907, 0, -1.22907, -5.37244e-08, 0, 0, 0, 1.7234, 0, 0, 0)
+
+[node name="Screen" parent="." index="1" node_paths=PackedStringArray("viewport") instance=ExtResource("2_f8pxi")]
+transform = Transform3D(0.95, 0, 0, 0, -4.37114e-08, -0.745, 0, 1, -3.2565e-08, -0.710899, 0.894322, -0.0343272)
+visible = false
+mesh = SubResource("PlaneMesh_pfsk5")
+surface_material_override/0 = SubResource("ShaderMaterial_ju533")
+viewport = NodePath("../VideoComponent/SubViewport")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="2"]
+volume_db = -5.0
+max_distance = 10.0
+
+[node name="VideoComponent" type="Node3D" parent="." index="3" node_paths=PackedStringArray("screen", "video", "audio", "viewport")]
+script = ExtResource("6_rghn2")
+screen = NodePath("../Screen")
+video = NodePath("SubViewport/SubViewportContainer/SubViewport2/VideoStreamPlayer")
+audio = NodePath("../AudioStreamPlayer3D")
+viewport = NodePath("SubViewport/SubViewportContainer/SubViewport2")
+loop = true
+
+[node name="SubViewport" type="SubViewport" parent="VideoComponent" index="0"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VideoComponent/SubViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport2" type="SubViewport" parent="VideoComponent/SubViewport/SubViewportContainer" index="0"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="VideoComponent/SubViewport/SubViewportContainer/SubViewport2" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = SubResource("VideoStreamTheora_jk8op")
+volume_db = -80.0
+expand = true
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="VideoComponent/SubViewport" index="1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="VideoComponent/SubViewport/SubViewportContainer2" index="0"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport" index="0"]
+offset_left = 30.0
+offset_top = 295.0
+offset_right = 1122.0
+offset_bottom = 353.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="AudioDisplay" type="HBoxContainer" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer" index="0" node_paths=PackedStringArray("timer")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+script = ExtResource("6_18k7x")
+timer = NodePath("Timer")
+
+[node name="TextureRect" type="TextureRect" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/AudioDisplay" index="0"]
+layout_mode = 2
+texture = ExtResource("7_gcxp0")
+
+[node name="Label" type="Label" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/AudioDisplay" index="1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_outline_size = 4
+theme_override_font_sizes/font_size = 60
+text = "00"
+
+[node name="Timer" type="Timer" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/AudioDisplay" index="2"]
+wait_time = 2.0
+one_shot = true
+
+[node name="ChannelDisplay" type="HBoxContainer" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer" index="1" node_paths=PackedStringArray("timer")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+alignment = 2
+script = ExtResource("8_b6qon")
+timer = NodePath("Timer")
+
+[node name="Label" type="Label" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/ChannelDisplay" index="0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 60
+text = "00"
+
+[node name="Timer" type="Timer" parent="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/ChannelDisplay" index="1"]
+wait_time = 3.0
+one_shot = true
+
+[node name="SwitchTimer" type="Timer" parent="." index="4"]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="finished" from="VideoComponent/SubViewport/SubViewportContainer/SubViewport2/VideoStreamPlayer" to="VideoComponent" method="_on_video_stream_player_finished"]
+[connection signal="timeout" from="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/AudioDisplay/Timer" to="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/AudioDisplay" method="_on_timer_timeout"]
+[connection signal="timeout" from="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/ChannelDisplay/Timer" to="VideoComponent/SubViewport/SubViewportContainer2/SubViewport/HBoxContainer/ChannelDisplay" method="_on_timer_timeout"]
+[connection signal="timeout" from="SwitchTimer" to="." method="_on_switch_timer_timeout"]
